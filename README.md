@@ -17,6 +17,7 @@
    - On Windows, they should be given the option to use Visual C++.
    - On Linux, they should be given the option to use GCC or Clang:
      - GCC still has issues with modules that we need to fix.
+     - Debugging doesn't work yet with Clang and this needs fixing.
    - On Mac, they may be given the option to use Clang.
 
 ## End Goal:
