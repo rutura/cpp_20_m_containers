@@ -1,5 +1,5 @@
-# Use the official GCC 14 image as the base
-FROM gcc:14
+# Use the official latest Clang image as the base
+FROM silkeh/clang:latest
 
 # Ensure package lists are updated and upgrade any outdated packages
 RUN apt-get update && apt-get upgrade -y
