@@ -1,0 +1,63 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "process",
+      "windows": {
+        "command": "powershell.exe",
+        "args": [
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "${workspaceFolder}\\switch_compiler.ps1",
+          "${input:compilerChoice}"
+        ]
+      },
+      "linux": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/switch_compiler.sh",
+          "${input:compilerChoice}"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "${workspaceFolder}/switch_compiler.sh",
+          "${input:compilerChoice}"
+        ]
+      },
+      "problemMatcher": [
+        {
+          "pattern": [
+            {
+              "regexp": ".",
+              "file": 1,
+              "location": 2,
+              "message": 3
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".",
+            "endsPattern": "."
+          }
+        }
+      ],
+      "label": "Switch Compiler",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "compilerChoice",
+      "type": "pickString",
+      "description": "Select the compiler to switch to",
+      "options": ["gcc14", "clang18", "msvc22"],
+      "default": "gcc14"
+    }
+  ]
+}

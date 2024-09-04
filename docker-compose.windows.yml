@@ -1,0 +1,12 @@
+version: '3'
+services:
+  msvc22:
+    build:
+      context: ./docker_msvc_22
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace:cached
+    command: powershell.exe -NoLogo -ExecutionPolicy Bypass
+
+volumes:
+  workspace:
