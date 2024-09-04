@@ -14,7 +14,7 @@ RUN choco install -y visualstudio2022buildtools --package-parameters "--add Micr
     choco install -y cmake git python
 
 # Install vcpkg
-RUN git clone https://github.com/Microsoft/vcpkg.git C:\vcpkg && \
+RUN git clone https://github.com/Microsoft/vcpkg.git C:\vcpkg --depth 1 && \
     C:\vcpkg\bootstrap-vcpkg.bat
 
 # Add vcpkg to PATH

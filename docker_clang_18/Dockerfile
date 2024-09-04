@@ -47,7 +47,7 @@ RUN echo "developer ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/developer
 
 # Install vcpkg as the developer user
 USER developer
-RUN git clone https://github.com/microsoft/vcpkg.git /home/developer/vcpkg && \
+RUN git clone https://github.com/microsoft/vcpkg.git /home/developer/vcpkg --depth 1 && \
     /home/developer/vcpkg/bootstrap-vcpkg.sh
 
 # Set up the VCPKG_ROOT environment variable and add vcpkg to PATH

@@ -1,0 +1,29 @@
+services:
+  clang18:
+    build:
+      context: ./docker_clang_18
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace
+    command: /bin/bash
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+  gcc14:
+    build:
+      context: ./docker_gcc_14
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace
+    command: /bin/bash
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+volumes:
+  workspace:
