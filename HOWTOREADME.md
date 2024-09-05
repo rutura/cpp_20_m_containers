@@ -68,11 +68,25 @@ All containers mount the project root directory to `/workspace`. This allows you
    - Clang: `clang++ -std=c++23 your_file.cpp -o output`
    - GCC: `g++ -std=c++23 your_file.cpp -o output`
 
+2a. Optional: Select compiler
+
+clang
+
+```bash
+export CC=clang
+export CXX=clang++
+```
+gcc
+
+```bash
+export CC=gcc
+export CXX=g++
+```
 3. Run CMake:
    ```
    mkdir build && cd build
-   cmake -G Ninja ..
-   ninja
+   cmake -G Ninja --preset linux ..
+   cd linux && ninja
    ```
 
 ### Combined Environment
