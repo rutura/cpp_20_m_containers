@@ -1,7 +1,7 @@
 {
   "name": "C++23 Master Class",
   "dockerComposeFile": "../docker-compose.yml",
-  "service": "gcc14",
+  "service": "clang18",
   "workspaceFolder": "/workspace",
   "customizations": {
     "vscode": {
@@ -28,6 +28,5 @@
       }
     }
   },
-  "remoteUser": "developer",
-  "postCreateCommand": "sh .devcontainer/post-create.sh"
+  "remoteUser": "developer"
 }

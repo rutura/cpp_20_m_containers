@@ -28,6 +28,5 @@
       }
     }
   },
-  "remoteUser": "developer",
-  "postCreateCommand": "sh .devcontainer/post-create.sh"
+  "remoteUser": "developer"
 }
