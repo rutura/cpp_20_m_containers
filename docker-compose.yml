@@ -1,5 +1,8 @@
+version: '3'
+
 services:
   clang18:
+    container_name: ubuntu_cmake_clang_18
     build:
       context: ./docker_clang_18
       dockerfile: Dockerfile
@@ -13,8 +16,23 @@ services:
       - seccomp:unconfined
 
   gcc14:
+    container_name: ubuntu_cmake_gcc_14
     build:
       context: ./docker_gcc_14
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace
+    command: /bin/bash
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+  combined:
+    container_name: ubuntu_cmake_gcc_clang
+    build:
+      context: ./docker_gcc_clang
       dockerfile: Dockerfile
     volumes:
       - .:/workspace

@@ -1,44 +1,119 @@
-# C++23 Master Class Development Environment
+# C++ 23 Masterclass Development Environments with Docker
 
-## Switching Between Compiler Environments
+This project provides Docker-based C++ development environments for the C++ 23 Masterclass:
 
-To switch between compiler environments:
+1. Ubuntu with CMake and Clang 18
+2. Ubuntu with CMake and GCC 14
+3. A combined environment with both Clang 18 and GCC 14
 
-1. Open the command palette in VS Code (F1 or Ctrl+Shift+P)
-2. Type "Tasks: Run Task" and select it
-3. Choose "Switch Compiler"
-4. Select the desired compiler from the dropdown (gcc14, clang18, or msvc22)
-5. If you selected msvc22 on a Windows system, the script will automatically run the necessary setup
-6. After the script runs, open the command palette again
-7. Select "Remote-Containers: Rebuild and Reopen in Container"
+## Prerequisites
 
-This process will modify the necessary configuration and rebuild the container with the selected compiler. For Windows users selecting MSVC, it will also automatically set up the correct files.
-
-## Requirements
-
-- Docker (Docker Desktop for Windows/Mac, Docker Engine for Linux)
-- Visual Studio Code with the Remote - Containers extension
-- Bash shell (for Linux/macOS users, typically pre-installed)
-- PowerShell (for Windows users, typically pre-installed on modern Windows systems)
+- Docker
+- Docker Compose
+- Visual Studio Code (recommended)
+- CMake Tools extension for VS Code (recommended)
 
 ## Project Structure
 
-- `switch_compiler.sh`: Script for switching compilers on Linux/macOS
-- `switch_compiler.ps1`: Script for switching compilers and setting up MSVC on Windows
-- `.vscode/tasks.json`: VS Code task configuration for easy compiler switching (includes OS-specific configurations)
+```
+project_root/
+│
+├── docker-compose.yml
+│
+├── docker_clang_18/
+│   └── Dockerfile
+│
+├── docker_gcc_14/
+│   └── Dockerfile
+│
+└── docker_gcc_clang/
+    └── Dockerfile
+```
+
+## Building and Running the Containers
+
+1. Clone the C++ 23 Masterclass repository:
+   ```
+   git clone https://github.com/rutura/The-C-20-Masterclass-Source-Code.git
+   cd The-C-20-Masterclass-Source-Code
+   git checkout cpp23-update
+   ```
+
+2. Copy the `docker-compose.yml` and Dockerfiles into this directory.
+
+3. Build and start the containers:
+   ```
+   docker-compose up -d --build
+   ```
+
+4. To enter a specific container:
+   - Clang 18: `docker exec -it ubuntu_cmake_clang_18 /bin/bash`
+   - GCC 14: `docker exec -it ubuntu_cmake_gcc_14 /bin/bash`
+   - Combined: `docker exec -it ubuntu_cmake_gcc_clang /bin/bash`
+
+5. When you're done, stop the containers:
+   ```
+   docker-compose down
+   ```
+
+## Using the Environments
+
+All containers mount the project root directory to `/workspace`. This allows you to edit files on your host machine and compile them within the container.
+
+### Clang 18 or GCC 14 Environment
+
+1. Navigate to the workspace: `cd /workspace`
+
+2. Compile a C++ file:
+   - Clang: `clang++ -std=c++23 your_file.cpp -o output`
+   - GCC: `g++ -std=c++23 your_file.cpp -o output`
+
+3. Run CMake:
+   ```
+   mkdir build && cd build
+   cmake -G Ninja ..
+   ninja
+   ```
+
+### Combined Environment
+
+In the combined environment, you can switch between compilers:
+
+1. To use GCC: `sudo update-alternatives --set gcc /usr/bin/gcc-14`
+2. To use Clang: `sudo update-alternatives --set clang /usr/bin/clang-18`
+3. Verify the active compiler: `gcc --version` or `clang --version`
+
+## Intended Workflow
+
+1. Open the project in VS Code by dragging the folder onto VS Code.
+2. If the CMake Tools extension is installed, use the button to choose configuration:
+   - On Windows: Use Visual C++
+   - On Linux: Choose GCC or Clang (Note: GCC may have issues with modules, and debugging with Clang needs fixing)
+   - On Mac: Use Clang
+
+## Additional Tools and Settings
+
+All environments include:
+- CMake 3.30
+- Ninja v1.12.1
+- Vcpkg (initialized, with `VCPKG_ROOT` set)
+- GDB
+- Git
+
+## Customizing the Environments
+
+To add more tools or customize the environments:
+
+1. Modify the respective Dockerfile.
+2. Rebuild the containers: `docker-compose up -d --build`
 
 ## Troubleshooting
 
-If you encounter any issues:
+1. For permission issues, ensure Docker has necessary permissions to access your project directory.
+2. Check container logs: `docker-compose logs [service_name]`
+3. To remove all containers and start fresh: `docker-compose down --rmi all --volumes`
 
-- Ensure Docker is running and properly configured for your OS.
-- For Windows users, make sure Docker Desktop is set to use Windows containers when using MSVC.
-- If you're having permission issues, try running Docker commands with administrator privileges.
-- On Linux/macOS, ensure the `switch_compiler.sh` script is executable (`chmod +x switch_compiler.sh`).
-- If the MSVC setup fails on Windows, check that the necessary files (`docker-compose.windows.yml` and `devcontainer.windows.json`) are present in your project root.
+## Known Issues and Limitations
 
-For any other problems, please open an issue in the project repository.
-
-## Note for Maintainers
-
-The `tasks.json` file now includes OS-specific configurations for running the appropriate script. If you need to modify the script paths or add support for additional operating systems, you'll need to update the corresponding section in the `tasks.json` file.
+- GCC still has issues with modules that need to be fixed.
+- Debugging doesn't work yet with Clang and needs fixing.
