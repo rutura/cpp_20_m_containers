@@ -46,6 +46,24 @@ project_root/
    docker-compose up -d --build
    ```
 
+3a. Build without docker compose. 
+   ```
+   docker build -t ubuntu_cmake_gcc_14 -f docker_gcc_14/Dockerfile ./docker_gcc_14
+   ```
+
+3b. Run without docker-compose 
+   ```
+   docker run -it --name ubuntu_cmake_gcc_14 \
+  -v $(pwd):/workspace \
+  --cap-add=SYS_PTRACE \
+  --security-opt seccomp=unconfined \
+  ubuntu_cmake_gcc_14 /bin/bash
+   ```
+3c. Exec a running container
+```
+docker start -ai ubuntu_cmake_gcc_14
+```
+
 4. To enter a specific container:
    - Clang 18: `docker exec -it ubuntu_cmake_clang_18 /bin/bash`
    - GCC 14: `docker exec -it ubuntu_cmake_gcc_14 /bin/bash`
