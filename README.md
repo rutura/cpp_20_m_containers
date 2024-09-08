@@ -27,7 +27,7 @@
 ### Building the container:
 - Navigate to the folder containing the Dockerfile
 - Run the following command:
-  - `docker build -t gcc_clang .`
+  - `docker build -t gcc_clang_image .`
 - Run the command to start the container, pointing the folder containing the code to the /workspace folder in the container:
   - `docker run -it -v <path_to_code>:/workspace <container_name>`
   - eg: `docker run -it --name gcc_clang -v D:\Sandbox\The-C-20-Masterclass-Source-Code:/workspace gcc_clang_image`
