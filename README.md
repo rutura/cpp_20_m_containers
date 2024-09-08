@@ -1,5 +1,8 @@
 # Docker Containers Intended for Use with the C++ 23 Masterclass
 
+# IMPORTANT NOTE:
+  - You need to have Docker installed on your machine to use these containers
+
 # Three containers are provided:
 - one using GCC 14.2
 - one using Clang 18
