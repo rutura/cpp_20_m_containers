@@ -1,30 +1,68 @@
 # Docker Containers Intended for Use with the C++ 23 Masterclass
 
-## Projects Use CMake with the Following Dependencies and Settings:
-- GCC 14.2 or Clang 18
+# Three containers are provided:
+- one using GCC 14.2
+- one using Clang 18
+- one combining the two compilers: GCC 14.2 and Clang 18
+  
+# Other tools : 
 - CMake 3.30
-- Ninja v1.12.1
+- Ninja 1.12.1
 - Vcpkg
-  - Run the bash file to initialize
-  - Set up the `VCPKG_ROOT` environment variable to point to the root folder of vcpkg
-- GDB (any version)
+  - We set up the `VCPKG_ROOT` environment variable to point to the root folder of vcpkg
+- Debuggers: GDB
 
-## Intended Workflow:
-1. The student opens the template project in VS Code by dragging the folder onto VS Code.
-2. The project opens up.
-3. If the CMake Tools extension is installed, there should be a button to choose configuration.
-4. The student clicks on the button:
-   - On Windows, they should be given the option to use Visual C++.
-   - On Linux, they should be given the option to use GCC or Clang:
-     - GCC still has issues with modules that we need to fix.
-     - Debugging doesn't work yet with Clang and this needs fixing.
-   - On Mac, they may be given the option to use Clang.
+## Which container to use?
+- We recommend you use the one with both compilers, as it will allow you to switch between the two compilers easily.
+- The others are mainly for testing purposes (for us).
 
-## End Goal:
-- We need these two containers to work to the best of their abilities with modules:
-  - `ubuntu_cmake_clang_18`
-  - `ubuntu_cmake_gcc_14`
+## How to use: 
+- The are two ways to use the containers:
+  - Build the container using the Dockerfile provided
+  - Pull the container from Docker Hub
+  
+### Building the container:
+- Navigate to the folder containing the Dockerfile
+- Run the following command:
+  - `docker build -t gcc_clang .`
+- Run the command to start the container, pointing the folder containing the code to the /workspace folder in the container:
+  - `docker run -it -v <path_to_code>:/workspace <container_name>`
+  - eg: `docker run -it --name gcc_clang -v D:\Sandbox\The-C-20-Masterclass-Source-Code:/workspace gcc_clang_image`
+- By this point, you should be in the container and ready to compile your code.
 
-## Open Questions:
-- Should we install both GCC and Clang in the same container?
-  - What are the pros and cons?
+### Pulling the container from Docker Hub:
+- Run the following command:
+  - `docker pull dgakwaya/gcc_clang`
+- Run the command to start the container, pointing the folder containing the code to the /workspace folder in the container:
+- `docker run -it -v <path_to_code>:/workspace dgakwaya/gcc_clang`
+  - eg: `docker run -it --name gcc_clang -v D:\Sandbox\The-C-20-Masterclass-Source-Code:/workspace dgakwaya/gcc_clang`
+- By this point, you should be in the container and ready to compile your code.
+
+## Connect VS Code to the container:
+- You can connect VS Code to the container by following these steps:
+  - Install the Remote - Containers extension in VS Code
+  - Open the folder containing the code in VS Code
+  - Click on the green icon at the bottom left corner of the window
+  - Select "Attach to Running Container"
+  - Select the container you want to connect to
+  - Open a folder in the container
+  - Install the needed extensions in the container
+    - C/C++
+    - CMake
+    - CMake Tools
+  - By this point, you should be connected to the container and ready to compile your code.
+  - Things you can do: 
+    - Select a configure preset
+      - Windows-cl
+      - Linux-gcc
+      - Linux-clang
+  - Build: 
+    - Hit the build button in the bottom left corner of the window
+  - Debug:
+    - Set up a break point
+    - Hit the debug button on the bottom bar
+
+## Known Issues:
+  - The gcc compiler (GCC 14.2) is not compiling module code that uses the fmt library
+  - You can get around that by just falling back to iostream, or using the clang compiler
+  - We'll update the container as soon as we find a solution
