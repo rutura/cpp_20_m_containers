@@ -29,16 +29,18 @@
 - Run the following command:
   - `docker build -t gcc_clang_image .`
 - Run the command to start the container, pointing the folder containing the code to the /workspace folder in the container:
-  - `docker run -it -v <path_to_code>:/workspace <container_name>`
+  - `docker run -it --name <container_name> -v <path_to_code>:/workspace <image_name>`
   - eg: `docker run -it --name gcc_clang -v D:\Sandbox\The-C-20-Masterclass-Source-Code:/workspace gcc_clang_image`
+  - in the example, gcc_clang_image is the name of the image created locally.
+  - You will need to adjust the path if you are on a Linux or Mac machine. Something like `/home/user/Sandbox/The-C-20-Masterclass-Source-Code`
 - By this point, you should be in the container and ready to compile your code.
 
 ### Pulling the container from Docker Hub:
 - Run the following command:
-  - `docker pull dgakwaya/gcc_clang`
+  - `docker pull dgakwaya/gcc-clang:latest`
 - Run the command to start the container, pointing the folder containing the code to the /workspace folder in the container:
-- `docker run -it -v <path_to_code>:/workspace dgakwaya/gcc_clang`
-  - eg: `docker run -it --name gcc_clang -v D:\Sandbox\The-C-20-Masterclass-Source-Code:/workspace dgakwaya/gcc_clang`
+- `docker run -it --name <container_name> -v <path_to_code>:/workspace dgakwaya/gcc-clang:latest`
+  - eg: `docker run -it --name gcc_clang -v D:\Sandbox\The-C-20-Masterclass-Source-Code:/workspace dgakwaya/gcc-clang:latest`
 - By this point, you should be in the container and ready to compile your code.
 
 ## Connect VS Code to the container:
