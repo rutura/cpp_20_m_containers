@@ -4,20 +4,20 @@ FROM gcc:14.2.0
 # Ensure package lists are updated and upgrade any outdated packages
 RUN apt-get update && apt-get upgrade -y
 
-# Add the LLVM repository for Clang 18
+# Add the LLVM repository for Clang 19
 RUN apt-get install -y software-properties-common && \
     wget https://apt.llvm.org/llvm.sh && \
     chmod +x llvm.sh && \
-    ./llvm.sh 18 && \
+    ./llvm.sh 19 && \
     rm llvm.sh
 
-# Install Clang tools, including clang-scan-deps-18 and other common dependencies
+# Install Clang tools, including clang-scan-deps-19 and other common dependencies
 RUN apt-get install -y \
-    clang-tools-18 \
-    clangd-18 \
-    clang-format-18 \
-    clang-tidy-18 \
-    lldb-18 \
+    clang-tools-19 \
+    clangd-19 \
+    clang-format-19 \
+    clang-tidy-19 \
+    lldb-19 \
     wget \
     git \
     curl \
@@ -35,14 +35,14 @@ RUN apt-get install -y \
     libisl-dev \
     zlib1g-dev
 
-# Set Clang 18 as the default compiler and tools
-RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 100 && \
-    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 100 && \
+# Set Clang 19 as the default compiler and tools
+RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-19 100 && \
+    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-19 100 && \
     update-alternatives --install /usr/bin/cc cc /usr/bin/clang 100 && \
     update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++ 100
 
-# Install CMake 3.30 (or later)
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.30.0/cmake-3.30.0-Linux-x86_64.sh -O /tmp/cmake.sh && \
+# Install latest CMake (3.31.6)
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.31.6/cmake-3.31.6-linux-x86_64.sh -O /tmp/cmake.sh && \
     chmod +x /tmp/cmake.sh && \
     /tmp/cmake.sh --skip-license --prefix=/usr/local && \
     rm /tmp/cmake.sh
